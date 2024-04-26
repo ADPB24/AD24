@@ -1,7 +1,7 @@
 implementation 'com.google.android.gms:play-services-maps:18.2.0'
     implementation 'com.google.android.gms:play-services-location:21.2.0'
 
-MAPS_API_KEY=AIzaSyAh06DBs8fb2IhRVRkn_GJbc7K6igHaPsM
+MAPS_API_KEY=
 
 Anroid.manifest
 <?xml version="1.0" encoding="utf-8"?>
