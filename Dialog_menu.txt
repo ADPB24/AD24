@@ -61,7 +61,6 @@ Activity_main.xml:
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
 Dialog.xml:
 
 <?xml version="1.0" encoding="utf-8"?>
@@ -69,107 +68,105 @@ Dialog.xml:
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".DialogSetter">
 
     <EditText
-        android:id="@+id/editTextName"
+        android:id="@+id/edittextpersonname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="145dp"
+        android:hint="Username"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="USERNAME"
+        app:layout_constraintBottom_toTopOf="@+id/edittextpassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextPassword"
+        android:id="@+id/edittextpassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="49dp"
+        android:hint="Password"
         android:ems="10"
         android:inputType="textPassword"
-        android:text="abc123"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 Under Menu Folder:
 
-context_menu.xml:
-
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/settingsId"
-        android:icon="@drawable/baseline_settings_24"
-        app:showAsAction="withText"
-        android:title="Settings" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
     <item
-        android:id="@+id/contactUsId"
-        android:title="Contact Us"
-        android:icon="@drawable/baseline_call_24"
+        android:id="@+id/settingID"
+        android:title="Settings"
         app:showAsAction="withText" />
+
     <item
-        android:id="@+id/shareId"
+        android:id="@+id/contactID"
+        android:title="Contact US"
+        app:showAsAction="withText"/>
+
+    <item
+        android:id="@+id/shareID"
         android:title="Share"
-        android:icon="@drawable/baseline_share_24"
-        app:showAsAction="withText" />
+        app:showAsAction="withText"/>
 
 </menu>
-
 Popup_menu.xml:
 
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/openId"
+        android:id="@+id/openID"
         android:title="OPEN"
-        android:icon="@drawable/baseline_open_in_new_24"
-        app:showAsAction="withText" />
+        app:showAsAction="withText"/>
+
 
     <item
-        android:id="@+id/editId"
         android:title="EDIT"
-        android:icon="@drawable/baseline_edit_24"
-        app:showAsAction="withText" />
+        android:id="@+id/editID"
+        app:showAsAction="withText"/>
 
     <item
-        android:id="@+id/fileId"
+        android:id="@+id/fileID"
         android:title="FILE"
-        android:icon="@drawable/round_insert_drive_file_24"
-        app:showAsAction="withText" >
+        app:showAsAction="withText">
 
         <menu>
             <item
-            android:id="@+id/newFileId"
+
+                android:id="@+id/newID"
                 android:title="NEW"
                 app:showAsAction="withText"/>
+
             <item
-                android:id="@+id/renameId"
+                android:id="@+id/renameID"
                 android:title="RENAME"
                 app:showAsAction="withText"/>
         </menu>
     </item>
 
-
-
 </menu>
 
 MainActivity.java:
 
-package com.example.popup_dialog_expt5;
+package com.example.prac5;
 
-import androidx.annotation.NonNull;
+
+
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -177,193 +174,215 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.zip.Inflater;
+
 public class MainActivity extends AppCompatActivity implements DialogSetter.ExampleDialogListener{
-    TextView userName,password;
+
+    TextView username,password;
+
     @Override
-    public void applyTexts(String uName, String pass) {
-        userName.setText(uName);
+    public void applyTexts(String uname, String pass) {
+        username.setText(uname);
         password.setText(pass);
     }
 
-    //Options Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater=(MenuInflater)getMenuInflater();
-        inflater.inflate(R.menu.context_menu,menu);
-        return super.onCreateOptionsMenu(menu);
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater menuInflater=(MenuInflater)getMenuInflater();
+        menuInflater.inflate(R.menu.context_menu,menu);
+
+        return onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public void openDialog()
+    {
+        DialogSetter dialogSetter=new DialogSetter();
+        dialogSetter.show(getSupportFragmentManager(),null);
+    }
 
-        switch (item.getItemId()){
-            case R.id.settingsId:
-                Toast.makeText(this,"Settings",Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.contactUsId:
-                Toast.makeText(this,"Contact Us",Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.shareId:
-                Toast.makeText(this,"Share",Toast.LENGTH_LONG).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    @SuppressLint("NonConstantResourceId")
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
+
+        int itemId = menuItem.getItemId();
+
+        if (itemId == R.id.settingID) {
+            Toast.makeText(this, "Settings", Toast.LENGTH_LONG).show();
+            return true;
+        } else if (itemId == R.id.contactID) {
+            Toast.makeText(this, "Contact", Toast.LENGTH_LONG).show();
+            return true;
+        } else if (itemId == R.id.shareID) {
+            Toast.makeText(this, "Share", Toast.LENGTH_LONG).show();
+            return true;
+        } else {
+            return onOptionsItemSelected(menuItem);
         }
 
-    }
-    public void openDialog(){
-        DialogSetter dialogSetter=new DialogSetter();
-        dialogSetter.show(getSupportFragmentManager(),"dialog");
+
     }
 
-    //Context Menu Implementation
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu,v,menuInfo);
         menu.setHeaderTitle("Choose a title");
         MenuInflater menuInflater=getMenuInflater();
         menuInflater.inflate(R.menu.context_menu,menu);
     }
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.settingsId:
-                Toast.makeText(this,"Settings Selected", Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.contactUsId:
-                Toast.makeText(this,"Contact Us Selcted",Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.shareId:
-                Toast.makeText(this,"Share Selected",Toast.LENGTH_LONG).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+
+    public boolean onContextItemSelected(MenuItem item)
+    {
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.settingID) {
+            Toast.makeText(this, "Settings selected", Toast.LENGTH_LONG).show();
+            return true;
+        } else if (itemId == R.id.shareID) {
+            Toast.makeText(this, "Share selected", Toast.LENGTH_LONG).show();
+            return true;
+        } else if (itemId == R.id.contactID) {
+            Toast.makeText(this, "Contact selected", Toast.LENGTH_LONG).show();
+            return true;
+        } else {
+            return onOptionsItemSelected(item);
         }
+
+
     }
 
-    //Popup Menu
-    public void showPopUp(View view){
-        PopupMenu popupMenu=new PopupMenu(MainActivity.this,view);
+    public void showPop(View view){
+
+        PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
         popupMenu.inflate(R.menu.popup_menu);
         popupMenu.show();
-        popupMenu.setOnMenuItemClickListener(
-                new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch(menuItem.getItemId()){
-                            case R.id.openId:
-                                Toast.makeText(MainActivity.this,"Open Selected",Toast.LENGTH_LONG).show();
-                                return true;
-                            case R.id.editId:
-                                Toast.makeText(MainActivity.this,"Edit Selected",Toast.LENGTH_LONG).show();
-                                return true;
-                            case R.id.fileId:
-                                Toast.makeText(MainActivity.this,"File Selected",Toast.LENGTH_LONG).show();
-                                return true;
-                            default:
-                                return false;
-                        }
-                    }
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener(){
+
+            public boolean onMenuItemClick(MenuItem item){  // Changed to onMenuItemClick
+
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.openID) {
+                    Toast.makeText(MainActivity.this, "Open selected", Toast.LENGTH_LONG).show();  // Changed this to MainActivity.this
+                    return true;
+                } else if (itemId == R.id.editID) {
+                    Toast.makeText(MainActivity.this, "Edit selected", Toast.LENGTH_LONG).show();  // Changed this to MainActivity.this
+                    return true;
+                } else {
+                    return false;
                 }
-        );
+            }
+        });
     }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TextView username=findViewById(R.id.userNameId);
         TextView title=findViewById(R.id.titleId);
-        userName=findViewById(R.id.userNameId);
-        password=findViewById(R.id.passwordId);
-
-        Button openDialogButton=findViewById(R.id.dialogButtonId);
+        TextView password=findViewById(R.id.passwordId);
         Button button=findViewById(R.id.buttonId);
+        Button dialog_btn=findViewById(R.id.dialogButtonId);
 
-        openDialogButton.setOnClickListener(
-                new View.OnClickListener(){
-                    @Override
-                    public void onClick(View view) {
-                        openDialog();
-                    }
-                }
-        );
-        button.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showPopUp(v);
-                }
+        dialog_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog();
+
             }
-        );
-        registerForContextMenu(title);
+        });
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPop(v);
+
+            }
+        });
+
+        registerForContextMenu(title);
     }
 
 
 }
-
 DialogSetter.java:
 
-package com.example.popup_dialog_expt5;
+package com.example.prac5;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.view.View;
+import android.app.Dialog;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
 public class DialogSetter extends AppCompatDialogFragment {
-    public interface ExampleDialogListener{
-        public void applyTexts(String userName,String password);
+
+    public interface ExampleDialogListener {
+        public void applyTexts(String uname,String pass);
     }
-    public EditText userName,password;
+
+    public TextView username,password;
+
     private ExampleDialogListener exampleDialogListener;
 
-    @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState){
 
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
-        LayoutInflater layoutInflater=(LayoutInflater) getActivity().getLayoutInflater();
+        LayoutInflater layoutInflater=(LayoutInflater)getActivity().getLayoutInflater();
         View view=layoutInflater.inflate(R.layout.dialog,null);
-        userName=view.findViewById(R.id.editTextName);
-        password=view.findViewById(R.id.editTextPassword);
+        username=view.findViewById(R.id.edittextpersonname);
+        password=view.findViewById(R.id.edittextpassword);
 
-        builder.setView(view).setTitle("Login").setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setView(view).setTitle("Login").setNegativeButton("Cancelled", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-//                Toast.makeText((DialogInterface) this,"Cancelled....",Toast.LENGTH_LONG);
+            public void onClick(DialogInterface dialog, int which) {
+//                Toast.makeText(this, "Cancelled....", Toast.LENGTH_LONG).show();
+
             }
         }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                String uName=userName.getText().toString();
+            public void onClick(DialogInterface dialog, int which) {
+                String uname=username.getText().toString();
                 String pass=password.getText().toString();
-                exampleDialogListener.applyTexts(uName,pass);
+                exampleDialogListener.applyTexts(uname,pass);
+
+
             }
+
         });
+
         return builder.create();
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
+    public void onAttach(Context context)
+    {
         super.onAttach(context);
-        try {
+
+        try{
             exampleDialogListener=(ExampleDialogListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()+"Please Implement ExampleDialogListner");
+
+        }catch(ClassCastException e)
+        {
+            throw new ClassCastException(context.toString()+"Please Implement ExampleDialogLitener");
         }
 
     }
